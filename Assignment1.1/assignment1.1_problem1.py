@@ -28,14 +28,15 @@ if __name__ == "__main__":
     
     # Read data into separate lines
     file_contents = MapReduceLib.read_files([file])
-    file_contents.pop(0) #to remove the headers
+    file_contents.pop(0) # to remove the headers
 
     # Execute MapReduce job in parallel
     map_reduce = MapReduceLib.MapReduce(mapper_function, reducer_function, 8)
-    lol_result = map_reduce(file_contents, debug=True)
+    map_red_result = map_reduce(file_contents, debug=True)
 
-    sorted_result = sorted(lol_result, key=lambda x: (x[0]), reverse=True)
-    sorted_played_result = sorted(lol_result, key=lambda x: (-x[1]))
+    # Getting info out of result
+    sorted_result = sorted(map_red_result, key=lambda x: (x[0]), reverse=True)
+    sorted_played_result = sorted(map_red_result, key=lambda x: (-x[1]))
 
     print("SongId on alphabetic order played the following times:")
     for track_id, amount_played in sorted_result[:20]:
