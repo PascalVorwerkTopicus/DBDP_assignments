@@ -42,15 +42,13 @@ def reduce_word_count(key_value_item):
 
 if __name__ == '__main__':
     # Parse command line arguments
-    if len(sys.argv) == 1:
-        print('Please provide a text-file that you want to perform the wordcount on as a command line argument.')
+    file = os.path.abspath(os.path.join("Framework", "data",  "shakespeare_short.txt"))
+    if not os.path.isfile(file):
+        print('File `%s` not found.' % file)
         sys.exit(-1)
-    elif not os.path.isfile(sys.argv[1]):
-        print('File `%s` not found.' % sys.argv[1])
-        sys.exit(-1)
-
+    
     # Read data into separate lines
-    file_contents = read_files([sys.argv[1]])
+    file_contents = read_files([file])
     
     # Execute MapReduce job in parallel
     map_reduce = MapReduce(map_lines_to_words, reduce_word_count, 8)

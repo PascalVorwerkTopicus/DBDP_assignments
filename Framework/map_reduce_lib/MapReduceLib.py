@@ -70,7 +70,7 @@ class MapReduce(object):
         if debug:
           cprint('=== Reducer finished ===', 'red', attrs=['bold'])
 
-        reduced_values.sort(key=operator.itemgetter(1))
+        reduced_values.sort(key=operator.itemgetter(0))
         return reduced_values
 
 def process_print(*args):
