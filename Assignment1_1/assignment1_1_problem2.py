@@ -1,7 +1,9 @@
 import sys
 import os
 sys.path.append('Framework')
+sys.path.append('Assignment1_1')
 from map_reduce_lib import MapReduceLib
+from assignment1_1_utils import open_file_return_lines
 
 def mapper_function(key_value_item):
     file, line = key_value_item
@@ -32,26 +34,12 @@ if __name__ == "__main__":
     # Expected output: (FirstName, LastName, hourOfday, numberOfTimesListened to a song in that hour of the day)
     print("Start of Assesment 1.1 problem 2.")
 
-    history_file = os.path.join("Assignment1.1", "dataset_small", "playhistory.csv")
-    if not os.path.isfile(history_file):
-        print('File `%s` not found.' % history_file)
-        sys.exit(-1)
-    
-    people_file = os.path.join("Assignment1.1", "dataset_small", "people.csv")
-    if not os.path.isfile(history_file):
-        print('File `%s` not found.' % history_file)
-        sys.exit(-1)
-
-    # Read data into separate lines
-    file_contents = MapReduceLib.read_files([history_file])
-    file_contents.pop(0) # to remove the headers
-
-    people_contents = MapReduceLib.read_files([people_file])
-    people_contents.pop(0) # to remove the headers
+    play_history_content = open_file_return_lines(os.path.join("Assignment1_1", "dataset_small", "playhistory.csv"), True)
+    people_contents = open_file_return_lines(os.path.join("Assignment1_1", "dataset_small", "people.csv"), True)
 
     # Execute MapReduce job in parallel
     map_reduce = MapReduceLib.MapReduce(mapper_function, reducer_function, 8)
-    map_red_result = map_reduce(file_contents, debug=True)
+    map_red_result = map_reduce(play_history_content, debug=True)
 
     map_reduce = MapReduceLib.MapReduce(mapper2, reducer2, 8)
     map_red_result = map_reduce(map_red_result, debug=True)
